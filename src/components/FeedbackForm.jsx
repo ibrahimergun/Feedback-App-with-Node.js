@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react';
 import Card from './shared/Card';
 import Button from './shared/Button';
+import RatingSelect from './RatingSelect';
 
-function FeedbackForm() {
+function FeedbackForm(props) {
   const [text, setText] = useState('');
+  const [rating, setRating] = useState(10);
   const [buttonDisabled, setButtonDisabled] = useState(true);
   const [message, setMessage] = useState('');
 
@@ -30,22 +32,35 @@ function FeedbackForm() {
       setButtonDisabled(true);
       setMessage('Text must be a least 10 characters');
     } else if (inputValue.current.value.trim().length > 10) {
+      setText(inputValue.current.value);
       setButtonDisabled(false);
       setMessage(null);
     }
   };
 
-  const reviewHandler = (e) => {
-    e.preventDefault();
-    setText(inputValue.current.value);
-    inputValue.current.value = '';
+  const ratingHandler = (rating) => {
+    setRating(rating);
   };
-  console.log(text);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    if (text.trim().length > 10) {
+      const newFeedback = {
+        text,
+        rating,
+      };
+      props.feedbackData(newFeedback);
+      setButtonDisabled(true);
+      setRating(10);
+      inputValue.current.value ='';
+    }
+  };
 
   return (
     <Card>
-      <form onSubmit={reviewHandler}>
+      <form onSubmit={submitHandler}>
         <h2> How would you rate your service with us?</h2>
+        <RatingSelect select={ratingHandler} selected={rating} />
         <div className='input-group'>
           <input
             type='text'
@@ -59,8 +74,7 @@ function FeedbackForm() {
         </div>
         {message && (
           <div style={styles} className='message'>
-            {' '}
-            {message}{' '}
+            {message}
           </div>
         )}
       </form>

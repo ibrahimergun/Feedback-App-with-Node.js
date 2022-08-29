@@ -1,6 +1,7 @@
 import React from 'react';
 
 import FeedbackItem from './FeedbackItem';
+import { AnimatePresence, motion } from 'framer-motion';
 import Card from './shared/Card';
 
 function FeedbackList(props) {
@@ -10,13 +11,22 @@ function FeedbackList(props) {
 
   return (
     <div className='feedback-list'>
-      {props.feedbackList.map((item) => (
-        <FeedbackItem
-          key={item.id}
-          feedbackItem={item}
-          onDelete={props.onDelete}
-        />
-      ))}
+      <AnimatePresence>
+        {props.feedbackList.map((item) => (
+          <motion.div
+            key={item.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <FeedbackItem
+              key={item.id}
+              feedbackItem={item}
+              onDelete={props.onDelete}
+            />
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 }
