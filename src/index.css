@@ -6,6 +6,7 @@
   padding: 0;
 }
 
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #202142;
@@ -40,7 +41,6 @@ header {
   margin: 20px 0;
   position: relative;
 }
-
 
 .card.reverse {
   background-color: rgba(0, 0, 0, 0.4);

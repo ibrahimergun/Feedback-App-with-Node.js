@@ -1,14 +1,18 @@
-import React from 'react';
+import React,{useContext} from 'react';
+import FeedbackContext from '../context/FeedbackContext';
 
-function FeedbackStats(props) {
+function FeedbackStats() {
+
+  const {feedback} = useContext(FeedbackContext);
+
   let average =
-    props.feedback.reduce((sum, cur) => {
+    feedback.reduce((sum, cur) => {
       return sum + cur.rating;
-    }, 0) / props.feedback.length;
+    }, 0) / feedback.length;
 
   return (
     <div className='feedback-stats'>
-      <h4>{props.feedback.length} Reviews</h4>
+      <h4>{feedback.length} Reviews</h4>
       <h4>Average Rating: {isNaN(average) ? 0 : Math.round(average)}</h4>
     </div>
   );
